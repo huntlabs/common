@@ -1,0 +1,7 @@
+{
+    "name": "common",
+	"dependencies" :{
+		"onyx-log":{ "version" :"~>1.2.1-rc3" }
+	},
+	"versions":["onyxLog"]
+}
