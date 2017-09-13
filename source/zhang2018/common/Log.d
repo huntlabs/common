@@ -172,7 +172,10 @@ public string log_get(A ...)(A args)
 private string convTostr(A ...)(string file , size_t line , A args)
 {
 	import std.conv;
-	return log_get(args) ~ " - " ~ file ~ ":" ~ to!string(line);	
+	if(g_exe is null)
+		return  log_get(args) ~ " - " ~ file ~ ":" ~ to!string(line);
+	else
+		return	g_exe ~ " - " ~log_get(args) ~ " - " ~ file ~ ":" ~ to!string(line);
 }
 
 
@@ -244,16 +247,18 @@ version(onyxLog)
 	import std.traits;
 	import std.range;
 
-	__gshared Log g_log;
-	__gshared KissLogLevel g_level;
+	__gshared string 		g_exe;
+	__gshared Log 			g_log;
+	__gshared KissLogLevel 	g_level;
 
 public:
-	bool load_log_conf(immutable string logConfPath)
+	bool load_log_conf(immutable string logConfPath , string execute_tag = string.init)
 	{
 		if(g_log is null)
 		{
 			auto bundle = new immutable Bundle(logConfPath);
 			createLoggers(bundle);
+			g_exe = execute_tag;
 			g_log = getLogger("logger");
 			g_level = toLevel(g_log.level());
 		}
