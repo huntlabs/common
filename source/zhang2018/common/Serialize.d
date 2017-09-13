@@ -379,13 +379,13 @@ T deserialize(T)(const byte[] data , out long parse_index)if(is(T == class))
 {
 	assert(data[0] == 7);
 	
-	T value = new T;
+	T t = new T;
 	byte len;
 	memcpy(&len , data.ptr + 1 , 2);
 	parse_index = 3 + len;
 	mixin(deserializeMembers!T());
 	
-	return value;
+	return t;
 }
 
 T deserialize(T)(const byte[] data )if(is(T == class))
