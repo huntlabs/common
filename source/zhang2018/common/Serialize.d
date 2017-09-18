@@ -378,9 +378,9 @@ byte[] serialize(T)(T t) if(is(T == class))
 T deserialize(T)(const byte[] data , out long parse_index)if(is(T == class))
 {
 	assert(data[0] == 7);
-	
+
 	T t = new T;
-	byte len;
+	ushort len;
 	memcpy(&len , data.ptr + 1 , 2);
 	parse_index = 3 + len;
 	mixin(deserializeMembers!T());
